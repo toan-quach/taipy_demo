@@ -46,6 +46,7 @@ def train_model(x_train: pd.DataFrame, y_train: pd.DataFrame):
 
 
 def test_model(model: RandomForestClassifier, x_test: pd.DataFrame, y_test: pd.DataFrame):
-    model_accuracy = model.score(x_test, y_test["target"])
-    
-    print("\n\nModel Accuracy Test:" , model_accuracy * 100 , "%\n\n")
+    model_accuracy = model.score(x_test, y_test["target"]) * 100
+
+    print("\n\nModel Accuracy Test:" , model_accuracy , "%\n\n")
+    return model_accuracy

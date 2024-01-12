@@ -33,13 +33,10 @@ y_train_dn_config = Config.configure_csv_data_node("y_train_dn", "data/y_train.c
 x_test_dn_config = Config.configure_csv_data_node("x_test_dn", "data/x_test.csv")
 y_test_dn_config = Config.configure_csv_data_node("y_test_dn", "data/y_test.csv")
 model_dn_config = Config.configure_pickle_data_node("model", "data/model.pickle")
+model_accuracy_config = Config.configure_data_node("model_accuracy")
 
 split_data_task_config = Config.configure_task("split_data", split_data, [heart_disease_dn_config], [x_train_dn_config, x_test_dn_config, y_train_dn_config, y_test_dn_config], skippable=True, )
 train_model_task_config = Config.configure_task("train_model", train_model, [x_train_dn_config, y_train_dn_config], [model_dn_config])
-test_model_task_config = Config.configure_task("test_model", test_model, [model_dn_config, x_test_dn_config, y_test_dn_config])
+test_model_task_config = Config.configure_task("test_model", test_model, [model_dn_config, x_test_dn_config, y_test_dn_config], [model_accuracy_config])
 
-heart_disease_scenario_config = Config.configure_scenario("training_scenario", [split_data_task_config, train_model_task_config, test_model_task_config])
-heart_disease_scenario_config.add_sequences({
-    "train_model": [split_data_task_config, train_model_task_config],
-    "test_model": [test_model_task_config],
-})
+heart_disease_scenario_config = Config.configure_scenario("training_scenario", [split_data_task_config, train_model_task_config, test_model_task_config], model="Random Forest Classifier")
